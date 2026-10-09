@@ -1,0 +1,36 @@
+# The C FFI crate as the C++ SDK builds it: CMake runs cargo on this manifest
+# through Corrosion. In the sdk-core repository it points at core/ffi and takes
+# the Core by path; in the published package (assembled by
+# scripts/cpp/package.sh) the sources sit next to it and the Core comes from
+# crates.io, like the Elixir bridge's.
+#
+# Keep the dependency versions in sync with the workspace Cargo.toml: this
+# crate is not a workspace member, so it cannot inherit them.
+
+[package]
+name = "kameleoon-ffi"
+version = "0.0.1"
+edition = "2021"
+rust-version = "1.91"
+publish = false
+
+# Static: the archive is linked into the consumer's binary, so there is no
+# shared library to deploy next to it (core/ffi itself stays a cdylib for the
+# other SDKs).
+[lib]
+name = "kameleoon_ffi"
+path = "src/lib.rs"
+crate-type = ["staticlib"]
+
+[dependencies]
+kameleoon-core = { version = "=0.1.10" }
+libc = "0.2.184"
+tokio = { version = "1.50.0", default-features = false, features = ["rt-multi-thread", "macros"] }
+
+# The Java (JNI + protobuf) bindings of core/ffi are not part of this build;
+# their `cfg(feature = "jni")` guards must not trip the unexpected_cfgs lint.
+[lints.rust]
+unexpected_cfgs = { level = "warn", check-cfg = ['cfg(feature, values("jni"))'] }
+
+# Not a member of the sdk-core workspace: it would collide with core/ffi.
+[workspace]
