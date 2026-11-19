@@ -1,6 +1,20 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
+## 0.8.6 - 2026-11-19
+### Features
+* Real-time configuration [streaming](https://docs.kameleoon.com/developer-docs/feature-experimentation/technical-reference/technical-considerations#streaming-premium-option) can now be enabled for server-side SDKs independently of client-side SDKs.
+* The real-time (SSE) connection now honors the `proxy_host` setting of [`KameleoonClientConfig`][additional_config], like the other SDK requests.
+* Added support for version strings containing pre-release and build metadata, in accordance with [Semantic Versioning](https://semver.org/#semantic-versioning-200). Pre-release and build metadata components are currently ignored, and the version is normalized to `major.minor.patch`.
+
+### Bug fixes
+* Fixed the SDK getting stuck without configuration updates when the real-time streaming connection kept being established without delivering an event (for example, behind a proxy which accepts the connection but forwards nothing). When the connection cannot be established or delivers nothing, the SDK now retries it once after 10 seconds and then falls back to polling, with the first poll after one minute; each successful poll switches back to streaming once it is available again.
+* Fixed configuration updates published while the real-time streaming connection was down (reconnection, server-side close) being missed until the next update. The SDK now resynchronizes the configuration on every (re)connection.
+* Fixed the SDK getting stuck without configuration updates on a stalled streaming connection (for example, one silently dropped by a NAT or load balancer). The SDK now treats 6 minutes of silence as a connection failure: it reconnects, and falls back to polling if the new connection stalls as well.
+* A configuration fetch which fails while the SDK is in streaming mode is now retried after one minute, with streaming restored once a fetch succeeds. Previously the SDK kept the outdated configuration until the next streaming event.
+* Fixed an older configuration being applied over a newer one when two configuration fetches (for example, a poll and a fetch triggered by a streaming event) completed out of order.
+* Fixed the configuration being polled more and more often in polling mode: every configuration update started one more polling loop.
+
 ## 0.8.5 - 2026-10-09
 ### Features
 * Initial release of the Kameleoon C++ SDK, a C++17 wrapper over the Kameleoon SDK Core.
