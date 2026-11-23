@@ -4,6 +4,6 @@ namespace kameleoon
 {
 
     constexpr const char *CPP_SDK_NAME = "CPP";
-    constexpr const char *CPP_SDK_VERSION = "0.8.6";
+    constexpr const char *CPP_SDK_VERSION = "0.8.7";
 
 } // namespace kameleoon

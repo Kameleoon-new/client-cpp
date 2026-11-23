@@ -14,7 +14,7 @@ The SDK is a C++17 library over the Kameleoon SDK Core, which is written in Rust
 include(FetchContent)
 FetchContent_Declare(kameleoon
     GIT_REPOSITORY https://github.com/Kameleoon-new/client-cpp.git
-    GIT_TAG 0.8.6
+    GIT_TAG 0.8.7
 )
 FetchContent_MakeAvailable(kameleoon)
 

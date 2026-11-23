@@ -1,6 +1,29 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
+## 0.8.7 - 2026-11-23
+### Features
+* Added the "greater than or equal to" (`>=`) and "less than or equal to" (`<=`) operators to the following targeting conditions:
+  - App version
+  - SDK type
+  - Browser
+  - Custom data (number)
+  - Number of page views
+  - Total number of visits
+  - Number of visits today
+  - Elapsed time since first visit
+  - Elapsed time since last visit
+
+  These operators will be available in the Kameleoon app with the platform release planned for December 2026.
+
+### Bug fixes
+* Fixed the Custom data condition with an operator unknown to the SDK targeting every visitor who does not have the custom data: the operator was treated as `Undefined`. Such a condition is now never met.
+* Fixed the Custom data condition with the `Among values` operator never being met when the list contained a decimal number (for example, `[1.5, 10]`).
+* Fixed the Browser condition with a version and an unknown or missing operator ignoring the version. Such a condition is now never met.
+* Fixed the SDK type condition without a version never being met when its operator was unknown or missing. The operator is ignored without a version.
+* Fixed the SDK type condition with an invalid version being met for any version. Such a condition is now never met.
+* A condition with invalid parameters (for example, an operator unknown to the SDK) is not an error when the configuration is parsed anymore: an error is logged when such a condition is evaluated, and it is evaluated as not met.
+
 ## 0.8.6 - 2026-11-19
 ### Features
 * Real-time configuration [streaming](https://docs.kameleoon.com/developer-docs/feature-experimentation/technical-reference/technical-considerations#streaming-premium-option) can now be enabled for server-side SDKs independently of client-side SDKs.

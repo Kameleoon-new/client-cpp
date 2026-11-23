@@ -906,9 +906,9 @@ dependencies = [
 
 [[package]]
 name = "kameleoon-core"
-version = "0.1.11"
+version = "0.1.12"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f8a8f1f25ff9f8b0f1dd76176e5305e4530fcd7e6b55ca9a24b715b4533805b6"
+checksum = "64f5d31edd6b439bb887480d8ab13637a19cf052b325cb4349f717c83b7aae66"
 dependencies = [
  "arc-swap",
  "async-trait",
